@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LOOM // SWARM CORE</title>
+  <title>HEART // SWARM CORE</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap');
     :root {
@@ -779,7 +779,7 @@
 
     /* ══ MOBILE ROOM LIST ══════════════════════════════════════════ */
     @media (max-width: 600px) {
-      #swarm-canvas { opacity:0.3; }
+      #swarm-canvas { opacity:0.2; }
       #room-grid { display:block !important; top:55px; }
       #chat-box { bottom:10px; left:10px; right:10px; width:auto; }
       #monitor-panel { display:none; }
@@ -789,8 +789,8 @@
 
     /* ══ MOBILE COMPLETO (≤600px) ══════════════════════════════════ */
     @media (max-width: 600px) {
-      /* Canvas sfumato — room grid è la navigazione principale */
-      #swarm-canvas { opacity: 0.15; pointer-events: none; }
+      /* Canvas decorativo — room grid è la navigazione principale */
+      #swarm-canvas { opacity: 0.2; pointer-events: none; }
 
       /* Header fisso mobile */
       #mobile-header {
@@ -802,15 +802,16 @@
       }
       #suspicion-bar { top: 48px; font-size: 7px; }
 
-      /* Room grid mobile: lista verticale */
+      /* Room grid mobile: PRIMARIA — lista a 2 colonne */
       #room-grid {
         display: block !important; top: 100px;
         left: 0; right: 0; transform: none;
         width: 100%; padding: 0 8px;
+        z-index: 10;
       }
       .room-grid-inner { grid-template-columns: 1fr 1fr; gap: 5px; }
-      .room-card { padding: 6px 8px; }
-      .room-name { font-size: 10px; }
+      .room-card { padding: 8px 10px; min-height: 52px; }
+      .room-name { font-size: 11px; font-weight: 600; }
 
       /* Chat box mobile: bottom sheet */
       #chat-box {
@@ -1475,27 +1476,27 @@
     <div class="postura-options">
       <button class="postura-btn ombra" onclick="window.LOOM_APP.confirmMove('OMBRA')">
         <div class="postura-btn-title">
-          👤 OMBRA <span class="postura-cost paid">-15 pts</span>
+          👤 BLEND IN <span class="postura-cost paid">-15 pts</span>
         </div>
-        <div class="postura-btn-desc">Invisibile. Nessun beacon. Solo Field Ops remote. La regina non ti rileva.</div>
+        <div class="postura-btn-desc">Ti mimetizzi nel gruppo. Nessuno ti nota. Solo Field Ops remote. Il Gatekeeper non ti rileva.</div>
       </button>
       <button class="postura-btn" onclick="window.LOOM_APP.confirmMove('NEUTRALE')">
         <div class="postura-btn-title">
-          🚶 NEUTRALE <span class="postura-cost free">gratis</span>
+          🚶 JUST THERE <span class="postura-cost free">gratis</span>
         </div>
-        <div class="postura-btn-desc">Movimento standard. Rischio proporzionale all'anxiety della stanza.</div>
+        <div class="postura-btn-desc">Presenza normale. Rischio proporzionale alla tensione nella zona.</div>
       </button>
       <button class="postura-btn visibile" onclick="window.LOOM_APP.confirmMove('VISIBILE')">
         <div class="postura-btn-title">
-          👁 VISIBILE <span class="postura-cost risk">+5% susp.</span>
+          👁 MAKE AN ENTRANCE <span class="postura-cost risk">+5% tensione</span>
         </div>
-        <div class="postura-btn-desc">Ti fai notare. Trust sale più in fretta. Agenti HOT ti cercano. Affinity Ops -30%.</div>
+        <div class="postura-btn-desc">Entri notato/a. La fiducia sale più in fretta. Gli agenti VULNERABLE ti cercano. Rischio/opportunità.</div>
       </button>
       <button class="postura-btn base" onclick="window.LOOM_APP.moveToBase()">
         <div class="postura-btn-title">
-          🏠 TORNA ALLA BASE <span class="postura-cost free">gratis</span>
+          🏠 HOME BASE <span class="postura-cost free">gratis</span>
         </div>
-        <div class="postura-btn-desc">Esci dalla rete. Sospetto decade. Solo ops remote. Nessuna conversazione diretta.</div>
+        <div class="postura-btn-desc">Torna al tuo territorio. La tensione sociale decade. Solo ops remote.</div>
       </button>
     </div>
   </div>
@@ -1503,7 +1504,7 @@
   <!-- POSTURA INDICATOR -->
   <div id="postura-indicator" style="display:none">
     <span id="postura-icon">🚶</span>
-    <span id="postura-label">NEUTRALE</span>
+    <span id="postura-label">JUST THERE</span>
   </div>
 
   <!-- BASE OVERLAY -->
@@ -1567,7 +1568,7 @@
 
 <div id="intro-screen">
   <div class="intro-inner">
-    <div class="intro-logo">LOOM // SWARM CORE</div>
+    <div class="intro-logo">HEART // SWARM CORE</div>
     <div class="intro-scenario-label" style="font-size:10px;letter-spacing:3px;color:var(--text-mid);margin-bottom:24px">Local Opinion Overhaul Monitor</div>
     <div class="intro-scenario-label" id="intro-scenario-label"></div>
     <div class="intro-terminal" id="intro-terminal"></div>
@@ -1620,18 +1621,18 @@
       </div>
       <div class="briefing-mechanic">
         <div class="bm-label">SISTEMA BEACON</div>
-        <div class="bm-value"><span class="highlight">◆ SOVEREIGN</span> = Regina nella tua stanza.<br><span class="highlight">🎯 TARGET</span> = Missione attiva.<br><span class="highlight">🔴 HOT</span> = Vulnerabile o pericoloso.</div>
+        <div class="bm-value"><span class="highlight">◆ GATEKEEPER</span> = Clique Leader nella tua zona.<br><span class="highlight">🔴 VULNERABLE</span> = Momento delicato, aperto.<br><span class="highlight">🟡 OPEN</span> = Ricettivo, disponibile.<br><span class="highlight">🟢 CLOSED</span> = Non disponibile.</div>
       </div>
     </div>
 
     <div class="briefing-warning">
-      ⚠ Entrare nella stessa stanza di una Regina aumenta il suo alert level ogni turno. A alert 3 sa già chi sei.
+      ⚠ Entrare nella zona di un Gatekeeper aumenta la Social Tension ogni turno. A livello 3 sa già chi sei.
     </div>
 
     <div class="briefing-btns">
       <button class="intro-start-btn" onclick="window.LOOM_APP.closeBriefingAndStart()"
         style="background:var(--red);color:#fff">
-        ◆ HO CAPITO — INFILTRA LA RETE
+        💙 HO CAPITO — ENTRA NELLA SCENA
       </button>
     </div>
   </div>
@@ -2509,10 +2510,11 @@
     const beacons = engine.getRoomBeacons(roomLabel);
     if (!beacons.length) return;
 
-    // SOVEREIGN check
+    // GATEKEEPER check (formerly SOVEREIGN)
     const sovereign = beacons.find(b => b.beacon.signal === 'SOVEREIGN');
     if (sovereign) {
-      pushMonitor(`[SOVEREIGN PROXIMITY] ${sovereign.agent.name.split(' ')[0]} è in questa stanza. Alert aumenta ogni turno.`, 'sovereign');
+      const gatekeeperLabel = engine.getBeaconLabel ? engine.getBeaconLabel('SOVEREIGN') : 'GATEKEEPER';
+      pushMonitor(`[${gatekeeperLabel} NEARBY] ${sovereign.agent.name.split(' ')[0]} è in questa zona. Social Tension aumenta ogni turno.`, 'sovereign');
       if (radar) radar.triggerPing(sovereign.agent.id, 'alert');
     }
 
@@ -2520,7 +2522,8 @@
     beacons.forEach(b => {
       if (b.beacon.signal === 'SOVEREIGN') return; // già stampato
       const mtype = b.beacon.priority >= 7 ? 'incoming' : 'beacon';
-      pushMonitor(`${b.beacon.icon} [${b.beacon.signal}] ${b.agent.name.split(' ')[0]} — ${b.agent.currentZone}`, mtype);
+      const dispSignal = engine.getBeaconLabel ? engine.getBeaconLabel(b.beacon.signal) : b.beacon.signal;
+      pushMonitor(`${b.beacon.icon} [${dispSignal}] ${b.agent.name.split(' ')[0]} — ${b.agent.currentZone}`, mtype);
     });
 
     // Proximity badge
@@ -2601,9 +2604,9 @@
     });
     label.innerHTML = `→ ${roomLabel}
       <span style="color:${anxiety>0.6?'var(--red)':anxiety>0.3?'var(--gold)':'var(--teal)'}">
-        · Anxiety ${(anxiety*100).toFixed(0)}%
+        · Tension ${(anxiety*100).toFixed(0)}%
       </span>
-      ${queenHere ? '<span style="color:var(--red)"> · ◆ SOVEREIGN</span>' : ''}`;
+      ${queenHere ? '<span style="color:var(--red)"> · ◆ GATEKEEPER</span>' : ''}`;
 
     // Posiziona il modal vicino alla room card — centro schermo come fallback
     modal.style.display = 'block';
@@ -2618,11 +2621,16 @@
     const label = document.getElementById('postura-label');
     if (!indicator) return;
 
+    // Use engine's context-aware label if available
+    const postureLabels = engine?.getPostureLabel
+      ? { OMBRA: engine.getPostureLabel('OMBRA'), NEUTRALE: engine.getPostureLabel('NEUTRALE'), VISIBILE: engine.getPostureLabel('VISIBILE'), BASE: engine.getPostureLabel('BASE') }
+      : { OMBRA:'BLEND IN', NEUTRALE:'JUST THERE', VISIBILE:'MAKE AN ENTRANCE', BASE:'HOME BASE' };
+
     if (postura === 'BASE') {
       indicator.style.display = 'flex';
       indicator.className = 'base';
       icon.textContent = '🏠';
-      label.textContent = 'BASE OPERATIVA';
+      label.textContent = postureLabels.BASE;
       // Mostra overlay base, nascondi room grid
       document.getElementById('base-overlay').style.display = 'block';
       document.getElementById('room-grid').style.display = 'none';
@@ -2631,7 +2639,8 @@
       indicator.className = postura.toLowerCase();
       const icons = { OMBRA:'👤', NEUTRALE:'🚶', VISIBILE:'👁' };
       icon.textContent = icons[postura] || '🚶';
-      label.textContent = `${postura}${room ? ' · ' + room : ''}`;
+      const dispLabel = postureLabels[postura] || postura;
+      label.textContent = `${dispLabel}${room ? ' · ' + room : ''}`;
       document.getElementById('base-overlay').style.display = 'none';
       document.getElementById('room-grid').style.display = 'block';
     }
@@ -2807,12 +2816,12 @@
 
       // Messaggio monitor contestuale
       const riskMsgs = {
-        invisibile: `👤 Ti sei mosso in ombra verso ${room}. Nessuno sa che sei lì.`,
-        silenzioso: `🚶 Spostamento in ${room}. Ambiente tranquillo.`,
-        moderato:   `🚶 Spostamento in ${room}. Qualcuno potrebbe averti notato.`,
-        rischioso:  `⚠ Spostamento in ${room}. Alta tensione — sospetto +2%.`,
-        critico:    `🔴 Spostamento in ${room}. SOVEREIGN PRESENTE — sospetto +5%.`,
-        esposto:    `👁 Sei entrato visibilmente in ${room}. Sospetto +5%.`,
+        invisibile: `👤 Ti sei mescolato/a in ${room}. Nessuno sa che sei lì.`,
+        silenzioso: `🚶 Entri in ${room}. Ambiente tranquillo.`,
+        moderato:   `🚶 Entri in ${room}. Qualcuno potrebbe averti notato.`,
+        rischioso:  `⚠ Entri in ${room}. Alta tensione sociale — +2%.`,
+        critico:    `🔴 Entri in ${room}. GATEKEEPER PRESENTE — social tension +5%.`,
+        esposto:    `👁 Fai il tuo ingresso in ${room}. Social Tension +5%.`,
       };
       pushMonitor(riskMsgs[result.riskLevel] || `Spostamento in ${room}.`,
         result.riskLevel === 'critico' || result.riskLevel === 'esposto' ? 'alert' : '');

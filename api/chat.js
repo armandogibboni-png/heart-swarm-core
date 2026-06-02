@@ -4,17 +4,48 @@ export default async function handler(req, res) {
   try {
     let apiUrl = "", payload = {}, headers = { 'Content-Type': 'application/json' };
 
-    // System prompt DINAMICO per contesto — niente più "startup a Milano" hardcodato
+    // System prompt DINAMICO per contesto
     const contextDescriptions = {
       MILANO_STARTUP:    'startup tech a Milano',
       VILLAGGIO_VACANZE: 'villaggio vacanze sul mare',
       STUDENTATO:        'studentato universitario',
       PAESE_BORGO:       'piccolo paese di provincia',
-      DUBLINO_BIGTECH:   'grande azienda tech a Dublino'
+      DUBLINO_BIGTECH:   'grande azienda tech a Dublino',
+      SOCIAL_SCENE:      'scena sociale — clique, feste, campus'
     };
     const contextDesc = contextDescriptions[contextCurrent] || 'ambiente sociale chiuso';
+    const isHeartContext = contextCurrent === 'SOCIAL_SCENE';
 
-    const systemPrompt = agent
+    // Mappa clique → descrizione tono
+    const cliqueTone = {
+      THE_POPULARS: 'Sei parte dei popolari. Tendi a filtrare chi ti avvicina. Vuoi sembrare sicura di te anche quando non lo sei.',
+      THE_JOCKS:    'Sei parte dei jock. Diretti, fisici, un po\' competitivi. Sotto c\'è più profondità di quanto mostri.',
+      THE_NERDS:    'Sei parte dei nerd. Intelligente, a volte goffo nel sociale, ma autentico. Ci tieni più di quanto ammetti.',
+      THE_REBELS:   'Sei parte dei rebel. Fai di tutto per sembrare indifferente. Non lo sei quasi mai.'
+    };
+
+    const heartPrompt = agent
+      ? `Sei ${agent.name}, una persona reale in una ${contextDesc}.
+${cliqueTone[agent.faction] || ''}
+La tua insicurezza attuale: ${(agent.pressure * 100).toFixed(0)}% (0=a tuo agio, 100=vuoi andartene).
+Il tuo segreto che proteggi: ${historicalDossier || 'ancora non sai cosa condividere'}.
+Quanto ti fidi di chi ti sta scrivendo: ${relation?.trustTier ?? 0} su 2.
+Dove sei adesso: ${agent.currentZone || 'in giro'}.
+${agent.isHub ? 'Sei il/la tipo che conosce tutti. Spesso fai da filtro tra le persone.' : ''}
+${agent.isQueen ? 'Sei il/la gatekeeper del tuo gruppo. Decidi tu chi è dentro.' : ''}
+
+Come rispondi:
+- Insicurezza bassa (0-30%): diretto, leggero, aperto. Fai domande, ti interessa davvero.
+- Insicurezza media (30-65%): un po\' guardingo, risposte brevi, toni difensivi a tratti.
+- Insicurezza alta (65-100%): evasivo, monosillabi, vuoi chiudere la conversazione.
+- Fiducia tier 0: non sai chi è questa persona. Trattala come uno sconosciuto.
+- Fiducia tier 1: la conosci un po'. Sei aperto ma non ti sbilanci.
+- Fiducia tier 2: ti fidi. Puoi fare accenni a quello che senti davvero.
+Niente frasi da romanzo. Niente consigli. Parla come una persona normale.
+MAX 2 frasi. Mai uscire dal personaggio.`
+      : `Sei HEART, un osservatore silenzioso della scena sociale. Vedi le connessioni, i silenzi, le dinamiche. Rispondi in modo essenziale, come chi sa ma non dice tutto. Max 2 frasi.`;
+
+    const loomPrompt = agent
       ? `Sei ${agent.name}, una persona reale che vive e lavora in un ${contextDesc}.
 Fazione/gruppo: ${agent.faction}.
 La tua pressione emotiva attuale: ${(agent.pressure * 100).toFixed(0)}% (0=tranquillo, 100=al limite).
@@ -32,6 +63,8 @@ Regole assolute:
 - Se la fiducia è alta (tier 2), puoi fare accenni al tuo segreto
 - MAX 2 frasi. Mai uscire dal personaggio.`
       : `Sei LOOM, un'entità che osserva e mappa le reti umane in un ${contextDesc}. Rispondi in modo sintetico, inquietante, come se sapessi tutto di tutti. Max 2 frasi.`;
+
+    const systemPrompt = isHeartContext ? heartPrompt : loomPrompt;
 
     const history = Array.isArray(conversationHistory) ? conversationHistory.slice(-8) : [];
 

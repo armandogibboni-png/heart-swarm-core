@@ -1065,10 +1065,24 @@ export class SwarmEngine {
     });
   }
 
-  // ── REGINE: CONTROLLO NEUTRALIZZAZIONE ───────────────────────────
+  // ── REGINE: CONTROLLO NEUTRALIZZAZIONE / AFFINITÀ ─────────────────
   checkQueenProgress(queenData) {
     const agent = this.agents.find(a => a.id === queenData.agentId);
     if (!agent || queenData.neutralized) return false;
+
+    // HEART mode: win via Affinity Tier 2 with the Clique Leader
+    if (this.config?.winType === 'AFFINITY') {
+      const rel = this.playerRelations[queenData.agentId];
+      if (rel && rel.trustTier >= 2) {
+        queenData.neutralized = true;
+        queenData.neutralizeMethod = 'AFFINITY';
+        agent.queenNeutralized = true;
+        return true;
+      }
+      return false;
+    }
+
+    // Default LOOM mode: isolamento / esposizione
     const blacklisted = (agent.followers || []).filter(fid => {
       const fa = this.agents.find(a => a.id === fid);
       return fa && fa.isBlacklisted;
@@ -1088,9 +1102,24 @@ export class SwarmEngine {
     return false;
   }
 
-  isGameOver() { return this.factions.every(f => this.factionSuspicion[f] > 0.85); }
+  isGameOver() {
+    // HEART: game over quando Social Tension ≥ 100% (factionSuspicion media ≥ 0.85)
+    if (this.config?.winType === 'AFFINITY') {
+      const avg = this.factions.reduce((s,f) => s + (this.factionSuspicion[f]||0), 0) / this.factions.length;
+      return avg >= 0.85;
+    }
+    return this.factions.every(f => this.factionSuspicion[f] > 0.85);
+  }
   isVictory() {
     return this.queens && this.queens.length >= 2 && this.queens.every(q => q.neutralized);
+  }
+
+  // ── HELPER: label beacon/postura per contesto ─────────────────────
+  getBeaconLabel(signal) {
+    return this.config?.beaconLabels?.[signal] || signal;
+  }
+  getPostureLabel(postura) {
+    return this.config?.postureLabels?.[postura] || postura;
   }
 
   // ── CREDITI ───────────────────────────────────────────────────────

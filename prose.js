@@ -2050,3 +2050,238 @@ export const MISSION_TYPE_LABELS = {
   disinfo: { icon:'💬', label:'DISINFO', desc:'Inietta un rumor in questa zona per coprire le tue tracce.' },
   timed:   { icon:'⏱', label:'A TEMPO', desc:'Completa prima che il timer scada.' },
 };
+
+// ══════════════════════════════════════════════════════════════════════════════
+// HEART // SWARM CORE — SOCIAL SCENE
+// ══════════════════════════════════════════════════════════════════════════════
+
+Object.assign(CONTEXT_CONFIG, {
+  SOCIAL_SCENE: {
+    label: '💙 Social Scene',
+    subtitle: 'Clique, gossip, e il gatekeeper che decide chi entra',
+    factions: ['THE_POPULARS','THE_JOCKS','THE_NERDS','THE_REBELS'],
+    factionLabels: { THE_POPULARS:'POP', THE_JOCKS:'JOC', THE_NERDS:'NRD', THE_REBELS:'REB' },
+    factionCenters: {
+      THE_POPULARS: { rx:0.25, ry:0.28 },
+      THE_JOCKS:    { rx:0.75, ry:0.28 },
+      THE_NERDS:    { rx:0.25, ry:0.72 },
+      THE_REBELS:   { rx:0.75, ry:0.72 }
+    },
+    zones: [
+      { label: 'The Club',     rx:0.30, ry:0.25, rr:0.12 },
+      { label: 'Beach Lounge', rx:0.70, ry:0.25, rr:0.11 },
+      { label: 'The Campus',   rx:0.50, ry:0.48, rr:0.13 },
+      { label: 'Coffee Shop',  rx:0.25, ry:0.72, rr:0.09 },
+      { label: 'The Gym',      rx:0.70, ry:0.68, rr:0.09 },
+      { label: 'House Party',  rx:0.50, ry:0.88, rr:0.10 }
+    ],
+    // Mapping beacon → HEART labels
+    beaconLabels: {
+      COLD:     'CLOSED',
+      WARM:     'OPEN',
+      HOT:      'VULNERABLE',
+      SOVEREIGN:'GATEKEEPER',
+      TARGET:   'INTEREST',
+      HANDLER:  'WINGMAN'
+    },
+    // Mapping posture → HEART labels
+    postureLabels: {
+      OMBRA:    'BLEND IN',
+      NEUTRALE: 'JUST THERE',
+      VISIBILE: 'MAKE AN ENTRANCE',
+      BASE:     'HOME BASE'
+    },
+    // Win condition type
+    winType: 'AFFINITY'
+  }
+});
+
+// ── LORE HEART: segreti sociali per clique ───────────────────────────────────
+if (!LORE_BY_CONTEXT.SOCIAL_SCENE) {
+  LORE_BY_CONTEXT.SOCIAL_SCENE = {
+    THE_POPULARS: [
+      "Sotto tutta quella sicurezza c'è qualcuno che ha paura di non essere abbastanza.",
+      "Il suo account instagram mostra 2000 follower. Ne ha 600 reali.",
+      "Quella notte di capodanno ha pianto in bagno per venti minuti. Non lo sa nessuno.",
+      "Invita tutti alle feste perché ha paura che se smette, nessuno la nota più.",
+      "Ha copiato la personalità della sua migliore amica del liceo. Quella amica non c'è più.",
+      "Finge di non essere gelosa quando qualcuno attira più attenzione. Ci riesce male.",
+      "Il ragazzo con cui ha flirtato la scorsa settimana le piace sul serio. Non lo dirà mai.",
+      "Ha bloccato tre persone perché le piacevano troppo e le spaventava.",
+      "Si confronta con tutti. Sempre. È sfiancante per lei.",
+      "Ha un profilo alternativo dove segue persone che non 'dovrebbe' seguire."
+    ],
+    THE_JOCKS: [
+      "Finge di non leggere. Ha finito tre romanzi questo mese.",
+      "Si è fatto male al ginocchio due mesi fa. Continua ad allenarsi perché ha paura di perdere il posto.",
+      "Il suo coach lo pressa troppo. Non sa come dirgli di smettere.",
+      "Ha pianto dopo una partita persa. In macchina, da solo, per venti minuti.",
+      "Studia più di quanto lascia credere. Non vuole che gli altri lo sappiamo.",
+      "Ha una playlist di musica classica che ascolta quando si allena. Non la condivide.",
+      "Gli piace qualcuno fuori dal suo gruppo. Non sa se può permetterselo socialmente.",
+      "Fa il duro perché ha imparato che funziona. Non è sicuro di voler essere così.",
+      "Suo padre lo guarda in campo come se non bastasse mai.",
+      "Ha mentito sulla sua storia sportiva al college. Spera che nessuno controlli."
+    ],
+    THE_NERDS: [
+      "Vorrebbe essere invitato alle feste. Non lo ammetterebbe neanche sotto tortura.",
+      "Ha un crush su qualcuno fuori dal suo cerchio da sei mesi. Non ha mai detto una parola.",
+      "Sa programmare sistemi complessi ma non sa come iniziare una conversazione.",
+      "Ha creato un account falso per seguire la persona che gli piace senza farsi vedere.",
+      "I suoi genitori pensano che sia felice così. Non hanno tutti i torti ma non tutta la ragione.",
+      "Si è esercitato davanti allo specchio a fare conversazione casual. Per ore.",
+      "Ha una battuta pronta per ogni situazione. Non funziona quasi mai.",
+      "Il suo progetto segreto è qualcosa che cambierebbe la sua vita. Ha paura di finirlo.",
+      "Finge di non curarsi delle gerarchie sociali. Gli importa moltissimo.",
+      "L'ultima volta che qualcuno gli ha chiesto come stava sul serio è stato due anni fa."
+    ],
+    THE_REBELS: [
+      "L'atteggiamento anticonformista è un'armatura. Sotto c'è qualcuno che vuole appartenere.",
+      "Ha scelto questo gruppo perché era l'unico che sembrava accettarla com'era.",
+      "Il suo stile è costruito. Lo sa. Non vuole che gli altri lo sappiano.",
+      "Finge di non voler stare con nessuno. In realtà ha paura che nessuno la voglia.",
+      "Critica le feste dei popolari ma si sente esclusa quando non viene invitata.",
+      "Il suo nichilismo è difensivo. È stanca di essere delusa.",
+      "Ha una lista di persone che la hanno delusa. La aggiorna spesso.",
+      "Dice sempre 'me ne frega zero'. Non è mai vero.",
+      "Ha pianto per qualcuno che non avrebbe dovuto farla piangere.",
+      "Il suo look è calcolato per tenere le persone a distanza giusta."
+    ]
+  };
+}
+
+// ── ZONE CONFIG aggiuntiva per SOCIAL_SCENE ──────────────────────────────────
+if (!ZONE_CONFIG.SOCIAL_SCENE) {
+  ZONE_CONFIG.SOCIAL_SCENE = [
+    { label: 'The Club',     rx:0.30, ry:0.25, rr:0.12 },
+    { label: 'Beach Lounge', rx:0.70, ry:0.25, rr:0.11 },
+    { label: 'The Campus',   rx:0.50, ry:0.48, rr:0.13 },
+    { label: 'Coffee Shop',  rx:0.25, ry:0.72, rr:0.09 },
+    { label: 'The Gym',      rx:0.70, ry:0.68, rr:0.09 },
+    { label: 'House Party',  rx:0.50, ry:0.88, rr:0.10 }
+  ];
+}
+
+// ── AMBIENT INTERCEPTS per SOCIAL_SCENE ──────────────────────────────────────
+if (!AMBIENT_INTERCEPTS.SOCIAL_SCENE) {
+  AMBIENT_INTERCEPTS.SOCIAL_SCENE = {
+    'The Club': [
+      '{a} ha guardato dall\'altra parte quando {b} è entrato.',
+      'Qualcuno ha abbassato la musica. Aria pesante.',
+      '{a} e {b} si sono ignorati per tutta la notte. Prima erano inseparabili.',
+      'Un gruppo si è compattato appena sei arrivato tu.',
+      '{a} stava ballando. Si è fermata quando ha visto {b}.',
+    ],
+    'Beach Lounge': [
+      '{a} fissava il mare. {b} si è seduto vicino senza dire niente.',
+      'Due persone allo stesso tavolo. Telefoni in mano. Nessuno parla.',
+      '{a} ha riso di qualcosa che {b} ha detto. Non era così divertente.',
+      'Qualcuno ha lasciato un posto libero accanto a sé. È rimasto vuoto.',
+    ],
+    'The Campus': [
+      '{a} e {b} non si siedono più allo stesso tavolo.',
+      'Un gruppo si è formato attorno a qualcuno. Poi si è disperso in fretta.',
+      '{a} ha guardato il telefono tre volte in due minuti.',
+      'Due persone che di solito si salutano si sono incrociate senza parlarsi.',
+      '{a} stava aspettando qualcuno. Nessuno è arrivato.',
+    ],
+    'Coffee Shop': [
+      '{a} stava aspettando qualcuno. Nessuno è arrivato.',
+      'Un tavolo da due. Una tazza piena, una vuota.',
+      '{a} ha riso forte al telefono poi si è fermata quando ha visto {b}.',
+      'Stessa musica, stessa sedia, stesso ordine. {a} viene qui ogni giorno.',
+    ],
+    'The Gym': [
+      '{a} si è fermato a guardare {b} allenarsi. {b} se n\'è accorto.',
+      'Due persone agli stessi pesi. Nessuna delle due cede.',
+      '{a} ha alzato il peso dopo che {b} lo ha superato.',
+      'Auricolari, musica alta, sguardo dritto. {a} non vuole essere disturbato.',
+    ],
+    'House Party': [
+      'Qualcuno ha abbassato la musica. Aria pesante.',
+      '{a} e {b} in un angolo. Conversazione seria in mezzo al casino.',
+      'Il cerchio si è aperto per far passare qualcuno. Poi si è richiuso.',
+      '{a} stava bene fino a quando è arrivato {b}.',
+      'Tre persone che escono insieme. Stavano parlando di qualcuno.',
+    ]
+  };
+}
+
+// ── MISSION TEMPLATES per SOCIAL_SCENE ──────────────────────────────────────
+if (!MISSION_TEMPLATES.SOCIAL_SCENE) {
+  MISSION_TEMPLATES.SOCIAL_SCENE = {
+    THE_POPULARS: [
+      '{target} sembra sicura di sé. Non lo è. Avvicinati nel momento giusto.',
+      'Ho bisogno di sapere cosa pensa davvero {target} di {faction}. Trovami una crepa.',
+      '{target} di {faction} ha qualcosa che la tiene sveglia la notte. Scopri cosa.'
+    ],
+    THE_JOCKS: [
+      '{target} fa il duro ma c\'è qualcosa sotto. Trovami l\'angolo giusto.',
+      'Fuori dal campo {target} è un\'altra persona. Avvicinala fuori contesto.',
+      '{target} si allena troppo. C\'è qualcosa che sta cercando di non pensare. Scopri cosa.'
+    ],
+    THE_NERDS: [
+      '{target} vuole essere invitato ma non lo chiederà mai. Daglielo tu.',
+      'Il progetto segreto di {target}. Ho bisogno di sapere cos\'è.',
+      '{target} di {faction} ha qualcuno in testa. Scopri chi prima che se ne accorga lui stesso.'
+    ],
+    THE_REBELS: [
+      '{target} dice che non le importa di niente. Scopri di cosa le importa.',
+      'Sotto quell\'armatura c\'è qualcuno che vuole appartenere. Trovalo.',
+      '{target} di {faction} ha paura di qualcosa di preciso. Voglio sapere cos\'è.'
+    ]
+  };
+}
+
+// ── FALLBACK MATRIX HEART (tono relazionale) ─────────────────────────────────
+export const FALLBACK_MATRIX_HEART = {
+  0: {
+    bassa:  ['Ciao.', 'Sì?', 'Non ti conosco, onestamente.', 'Ok.'],
+    media:  ['Non è un buon momento.', 'Non so neanche da dove iniziare.', 'Passiamo.'],
+    alta:   ['Lasciami stare.', 'Non adesso.', 'Non ho voglia di parlare con qualcuno che non conosco.'],
+  },
+  1: {
+    bassa:  ['Sì, capito.', 'Interessante quello che dici.', 'Okay, ci penso su.'],
+    media:  ['C\'è qualcosa che non mi torna, ma non so spiegarti cosa.', 'Fammi un po\' di spazio, dai.', 'Ti rispondo dopo.'],
+    alta:   ['Non riesco a stare dietro a tutto adesso.', 'Sei l\'ultima persona con cui volevo parlare oggi. Non nel senso cattivo.', 'Scrivimi domani.'],
+  },
+  2: {
+    bassa:  ['Te lo dico perché sei tu.', 'Nessun altro lo sa, quindi tienitelo.', 'Ci avevo pensato anche io, ma non l\'avevo detto.'],
+    media:  ['Mi fido di te abbastanza da dirtelo.', 'Non so perché ti sto dicendo questa cosa.', 'Okay ma giura che rimane tra noi.'],
+    alta:   ['Non riesco a nasconderlo quando sei tu.', 'Sei l\'unica persona con cui posso essere onesta adesso.', 'Fa che non te ne pentirò.'],
+  },
+};
+
+// ── SCENARIO INTRO: HEART ─────────────────────────────────────────────────────
+if (!SCENARIO_INTROS.SOCIAL_SCENE) {
+  SCENARIO_INTROS.SOCIAL_SCENE = {
+    lines: [
+      "Sei in una scena che non capisci ancora del tutto.",
+      "Ci sono persone che si conoscono da anni.",
+      "Cerchi, gatekeepers, segnali che non sai leggere.",
+      "Non vuoi smontare niente.",
+      "Vuoi solo entrare.",
+      "Per farlo, devi guadagnarti la fiducia di chi decide chi è dentro e chi no."
+    ],
+    obiettivo: "Raggiungi Affinity Tier 2 con entrambi i Clique Leader prima che la Social Tension esaurisca le tue possibilità."
+  };
+}
+
+if (!SCENARIO_ENDINGS.SOCIAL_SCENE) {
+  SCENARIO_ENDINGS.SOCIAL_SCENE = {
+    AFFINITY: [
+      "Non hai smontato niente.",
+      "Hai solo imparato a stare nel posto giusto nel momento giusto.",
+      "I Gatekeeper ora ti conoscono per davvero.",
+      "Non come qualcuno che cercava qualcosa.",
+      "Come qualcuno che c'era."
+    ],
+    ISOLAMENTO: [
+      "La Social Tension era troppo alta.",
+      "Tutti lo sentivano anche senza capirlo.",
+      "Non è che ti abbiano escluso.",
+      "Hanno solo smesso di includerti.",
+      "A volte è peggio."
+    ]
+  };
+}
